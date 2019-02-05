@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <contextName>todomvc</contextName>
+    <property scope="context" name="root.log.level" value="DEBUG"/>
+
+    <include resource="nab-shared-logback.xml"/>
+</configuration>
