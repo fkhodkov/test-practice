@@ -9,10 +9,10 @@ import org.springframework.test.context.ContextConfiguration;
 import ru.hh.nab.starter.NabApplication;
 import ru.hh.nab.testbase.NabTestBase;
 import ru.hh.school.fkhodkov.todomvc.TodoTestConfig;
-import ru.hh.school.fkhodkov.todomvc.dao.TodoDAO;
-import ru.hh.school.fkhodkov.todomvc.dao.TodoNoDBDAOFactory;
-import ru.hh.school.fkhodkov.todomvc.dto.TodoCollectionDTO;
-import ru.hh.school.fkhodkov.todomvc.dto.TodoItemDTO;
+import ru.hh.school.fkhodkov.todomvc.dao.TodoDao;
+import ru.hh.school.fkhodkov.todomvc.dao.TodoNoDbDaoFactory;
+import ru.hh.school.fkhodkov.todomvc.dto.TodoCollectionDto;
+import ru.hh.school.fkhodkov.todomvc.dto.TodoItemDto;
 import ru.hh.school.fkhodkov.todomvc.model.TodoItem;
 import ru.hh.school.fkhodkov.todomvc.model.TodoStatus;
 
@@ -26,14 +26,14 @@ import javax.ws.rs.core.Response;
 public class TodoResourceTest extends NabTestBase {
 
   private static final int numberOfTodos = 5;
-  private static final TodoDAO todoDAO = new TodoNoDBDAOFactory().getTodoDAO();
+  private static final TodoDao todoDAO = new TodoNoDbDaoFactory().getTodoDao();
 
   @Test
   public void getTodosWhenThereAreNone() {
     todoDAO.reset();
     Response response = target("/todo").request().get();
     assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    assertEquals(0, response.readEntity(TodoCollectionDTO.class).getItems().size());
+    assertEquals(0, response.readEntity(TodoCollectionDto.class).getItems().size());
   }
 
   @Test
@@ -41,13 +41,13 @@ public class TodoResourceTest extends NabTestBase {
     todoDAO.populate(numberOfTodos);
     Response response = target("/todo").request().get();
     assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-    assertEquals(numberOfTodos, response.readEntity(TodoCollectionDTO.class).getItems().size());
+    assertEquals(numberOfTodos, response.readEntity(TodoCollectionDto.class).getItems().size());
   }
 
   @Test
   public void insertTodo() {
     todoDAO.reset();
-    TodoItemDTO todoItem = new TodoItemDTO();
+    TodoItemDto todoItem = new TodoItemDto();
     todoItem.setText("TODO Item");
     Response response = target("/todo").request()
       .post(Entity.entity(todoItem, MediaType.APPLICATION_JSON_TYPE));
@@ -59,7 +59,7 @@ public class TodoResourceTest extends NabTestBase {
   public void completeTodoOK() {
     todoDAO.populate(numberOfTodos);
     int completed = numberOfTodos / 2;
-    TodoItemDTO request = new TodoItemDTO();
+    TodoItemDto request = new TodoItemDto();
     request.setStatus(TodoStatus.COMPLETED);
     Response response = target("/todo/" + completed).request()
       .put(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
@@ -74,7 +74,7 @@ public class TodoResourceTest extends NabTestBase {
   public void completeTodoNotFound() {
     todoDAO.populate(numberOfTodos);
     int completed = numberOfTodos + 1;
-    TodoItemDTO request = new TodoItemDTO();
+    TodoItemDto request = new TodoItemDto();
     request.setStatus(TodoStatus.COMPLETED);
     Response response = target("/todo/" + completed).request()
       .put(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));

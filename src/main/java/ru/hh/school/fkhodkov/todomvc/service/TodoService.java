@@ -4,59 +4,59 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import ru.hh.school.fkhodkov.todomvc.dao.TodoDAO;
-import ru.hh.school.fkhodkov.todomvc.dao.TodoDAOFactory;
-import ru.hh.school.fkhodkov.todomvc.dto.TodoCollectionDTO;
-import ru.hh.school.fkhodkov.todomvc.dto.TodoItemDTO;
+import ru.hh.school.fkhodkov.todomvc.dao.TodoDao;
+import ru.hh.school.fkhodkov.todomvc.dao.TodoDaoFactory;
+import ru.hh.school.fkhodkov.todomvc.dto.TodoCollectionDto;
+import ru.hh.school.fkhodkov.todomvc.dto.TodoItemDto;
 import ru.hh.school.fkhodkov.todomvc.exceptions.TodoNotFoundException;
 import ru.hh.school.fkhodkov.todomvc.model.TodoStatus;
 
 @Service
 @Component
 public class TodoService {
-  private final TodoDAO todoDAO;
+  private final TodoDao todoDao;
 
   @Autowired
-  public TodoService(TodoDAOFactory todoDAOFactory) {
-    todoDAO = todoDAOFactory.getTodoDAO();
+  public TodoService(TodoDaoFactory todoDaoFactory) {
+    todoDao = todoDaoFactory.getTodoDao();
   }
 
   public void reset() {
-    todoDAO.reset();
+    todoDao.reset();
   }
 
   public void populate(int numberOfTodos) {
-    todoDAO.populate(numberOfTodos);
+    todoDao.populate(numberOfTodos);
   }
 
-  public TodoCollectionDTO getTodoItems() {
-    return new TodoCollectionDTO(todoDAO.getAllItems());
+  public TodoCollectionDto getTodoItems() {
+    return new TodoCollectionDto(todoDao.getAllItems());
   }
 
-  public TodoCollectionDTO getActiveTodoItems() {
-    return new TodoCollectionDTO(todoDAO.getActiveItems());
+  public TodoCollectionDto getActiveTodoItems() {
+    return new TodoCollectionDto(todoDao.getActiveItems());
   }
 
-  public TodoCollectionDTO getCompletedTodoItems() {
-    return new TodoCollectionDTO(todoDAO.getCompletedItems());
+  public TodoCollectionDto getCompletedTodoItems() {
+    return new TodoCollectionDto(todoDao.getCompletedItems());
   }
 
-  public void addTodoItem(TodoItemDTO itemDTO) {
+  public void addTodoItem(TodoItemDto itemDTO) {
     if (itemDTO.getStatus() == null) {
       itemDTO.setStatus(TodoStatus.ACTIVE);
     }
-    todoDAO.addItem(itemDTO.todoItem());
+    todoDao.addItem(itemDTO.todoItem());
   }
 
   public void changeTodoStatus(Integer todoId, TodoStatus status) throws TodoNotFoundException {
-    todoDAO.changeStatus(todoId, status);
+    todoDao.changeStatus(todoId, status);
   }
 
   public void deleteCompletedTodo() {
-    todoDAO.deleteCompleted();
+    todoDao.deleteCompleted();
   }
 
   public void deleteTodo(Integer todoId) throws TodoNotFoundException {
-    todoDAO.deleteItem(todoId);
+    todoDao.deleteItem(todoId);
   }
 }

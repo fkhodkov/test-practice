@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import ru.hh.nab.testbase.NabTestConfig;
-import ru.hh.school.fkhodkov.todomvc.dao.TodoNoDBDAOFactory;
+import ru.hh.school.fkhodkov.todomvc.dao.TodoNoDbDaoFactory;
 import ru.hh.school.fkhodkov.todomvc.service.TodoService;
 
 import java.util.function.Function;
@@ -21,6 +21,6 @@ public class TodoTestConfig {
 
   @Bean
   TodoService todoService() {
-    return new TodoService(new TodoNoDBDAOFactory());
+    return new TodoService(new TodoNoDbDaoFactory());
   }
 }

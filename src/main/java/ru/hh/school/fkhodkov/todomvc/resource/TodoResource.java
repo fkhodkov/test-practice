@@ -2,8 +2,8 @@ package ru.hh.school.fkhodkov.todomvc.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ru.hh.school.fkhodkov.todomvc.dto.TodoCollectionDTO;
-import ru.hh.school.fkhodkov.todomvc.dto.TodoItemDTO;
+import ru.hh.school.fkhodkov.todomvc.dto.TodoCollectionDto;
+import ru.hh.school.fkhodkov.todomvc.dto.TodoItemDto;
 import ru.hh.school.fkhodkov.todomvc.exceptions.TodoNotFoundException;
 import ru.hh.school.fkhodkov.todomvc.service.TodoService;
 
@@ -34,34 +34,34 @@ public class TodoResource {
 
   @GET
   @Produces("application/json")
-  public TodoCollectionDTO getTodoItems() {
+  public TodoCollectionDto getTodoItems() {
     return todoService.getTodoItems();
   }
 
   @GET
   @Path("active")
   @Produces("application/json")
-  public TodoCollectionDTO getActiveTodoItems() {
+  public TodoCollectionDto getActiveTodoItems() {
     return todoService.getActiveTodoItems();
   }
 
   @GET
   @Path("completed")
   @Produces("application/json")
-  public TodoCollectionDTO getCompletedTodoItems() {
+  public TodoCollectionDto getCompletedTodoItems() {
     return todoService.getCompletedTodoItems();
   }
 
   @POST
   @Consumes("application/json")
-  public Response addTodoItem(TodoItemDTO todoItem) {
+  public Response addTodoItem(TodoItemDto todoItem) {
     todoService.addTodoItem(todoItem);
     return Response.status(Response.Status.OK).build();
   }
 
   @PUT
   @Path("{id}")
-  public Response changeTodoStatus(@PathParam("id") Integer todoId, TodoItemDTO dto) {
+  public Response changeTodoStatus(@PathParam("id") Integer todoId, TodoItemDto dto) {
     try {
       todoService.changeTodoStatus(todoId, dto.getStatus());
       return Response.status(Response.Status.OK).build();

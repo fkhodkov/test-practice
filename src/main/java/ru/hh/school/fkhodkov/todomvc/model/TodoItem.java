@@ -9,16 +9,16 @@ public class TodoItem {
 
   private String text;
 
-  public static boolean isActive(TodoItem todoItem) {
-    return todoItem.status == TodoStatus.ACTIVE;
+  public boolean isActive() {
+    return status == TodoStatus.ACTIVE;
   }
 
-  public static boolean isCompleted(TodoItem todoItem) {
-    return todoItem.status == TodoStatus.COMPLETED;
+  public boolean isCompleted() {
+    return status == TodoStatus.COMPLETED;
   }
 
-  public static void complete(TodoItem todoItem) {
-    todoItem.setStatus(TodoStatus.COMPLETED);
+  public void complete() {
+    setStatus(TodoStatus.COMPLETED);
   }
 
   public TodoItem() {

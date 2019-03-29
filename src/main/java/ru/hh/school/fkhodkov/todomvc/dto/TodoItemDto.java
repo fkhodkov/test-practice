@@ -3,48 +3,21 @@ package ru.hh.school.fkhodkov.todomvc.dto;
 import ru.hh.school.fkhodkov.todomvc.model.TodoItem;
 import ru.hh.school.fkhodkov.todomvc.model.TodoStatus;
 
-import java.util.Objects;
-
-public class TodoItemDTO {
+public class TodoItemDto {
   private TodoStatus status;
   private String text;
   private Integer todoId;
 
-  public TodoItemDTO(TodoItem item) {
+  public TodoItemDto(TodoItem item) {
     this.status = item.getStatus();
     this.text = item.getText();
     this.todoId = item.getTodoId();
   }
 
-  public TodoItemDTO() {}
-
-  public TodoItemDTO(Integer todoId, String text, TodoStatus status) {
-    this.status = status;
-    this.text = text;
-    this.todoId = todoId;
-  }
+  public TodoItemDto() {}
 
   public TodoItem todoItem() {
     return new TodoItem(todoId, text, status);
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (this == other) {
-      return true;
-    }
-    if (other == null || getClass() != other.getClass()) {
-      return false;
-    }
-    TodoItemDTO dto = (TodoItemDTO) other;
-    return todoId.equals(dto.todoId) &&
-      text.equals(dto.text) &&
-      status.equals(dto.status);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(todoId, status, text);
   }
 
   /**

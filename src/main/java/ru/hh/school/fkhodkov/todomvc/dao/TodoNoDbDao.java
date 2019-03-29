@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 
 @Component
-public class TodoNoDBDAO implements TodoDAO {
+public class TodoNoDbDao implements TodoDao {
   private static final AtomicInteger todoIdGenerator = new AtomicInteger();
   private static final Map<Integer, TodoItem> items = new HashMap<Integer, TodoItem>();
 

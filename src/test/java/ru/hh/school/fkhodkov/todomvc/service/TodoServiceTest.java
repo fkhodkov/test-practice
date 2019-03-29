@@ -6,8 +6,8 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-import ru.hh.school.fkhodkov.todomvc.dao.TodoNoDBDAOFactory;
-import ru.hh.school.fkhodkov.todomvc.dto.TodoItemDTO;
+import ru.hh.school.fkhodkov.todomvc.dao.TodoNoDbDaoFactory;
+import ru.hh.school.fkhodkov.todomvc.dto.TodoItemDto;
 import ru.hh.school.fkhodkov.todomvc.exceptions.TodoNotFoundException;
 import ru.hh.school.fkhodkov.todomvc.model.TodoStatus;
 
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TodoServiceTest {
-  private TodoService todoService = new TodoService(new TodoNoDBDAOFactory());
+  private TodoService todoService = new TodoService(new TodoNoDbDaoFactory());
   private int numberOfTodos = 5;
   private int numberOfActive = (numberOfTodos+1) / 2;
   private int numberOfCompleted = numberOfTodos / 2;
@@ -36,7 +36,7 @@ public class TodoServiceTest {
   public void prepare() {
     todoService.reset();
     todoService.populate(numberOfTodos);
-    List<TodoItemDTO> items = todoService.getTodoItems().getItems().stream()
+    List<TodoItemDto> items = todoService.getTodoItems().getItems().stream()
       .collect(Collectors.toList());
     try {
       for (int i = 1; i < numberOfTodos; i += 2) {
@@ -64,7 +64,7 @@ public class TodoServiceTest {
 
   @Test
   public void addTodoItemNullTest() {
-    TodoItemDTO itemDTO = new TodoItemDTO();
+    TodoItemDto itemDTO = new TodoItemDto();
     todoService.addTodoItem(itemDTO);
     assertEquals(numberOfTodos + 1, getTotalNum());
     assertEquals(1 + numberOfActive, getActiveNum());
@@ -72,7 +72,7 @@ public class TodoServiceTest {
 
   @Test
   public void addTodoItemNotNullTest() {
-    TodoItemDTO itemDTO = new TodoItemDTO();
+    TodoItemDto itemDTO = new TodoItemDto();
     itemDTO.setStatus(TodoStatus.COMPLETED);
     todoService.addTodoItem(itemDTO);
     assertEquals(numberOfTodos + 1, getTotalNum());
@@ -106,7 +106,7 @@ public class TodoServiceTest {
   @Test(expected=TodoNotFoundException.class)
   public void changeTodoStatusWrongIdTest() throws TodoNotFoundException {
     int changeId = todoService.getTodoItems().getItems().stream()
-      .mapToInt(TodoItemDTO::getTodoId)
+      .mapToInt(TodoItemDto::getTodoId)
       .max().getAsInt() + 1;
     todoService.changeTodoStatus(changeId, TodoStatus.COMPLETED);
   }
@@ -114,7 +114,7 @@ public class TodoServiceTest {
   @Test
   public void deleteTodoTest() {
     int changeId = todoService.getTodoItems().getItems().stream()
-      .mapToInt(TodoItemDTO::getTodoId)
+      .mapToInt(TodoItemDto::getTodoId)
       .findAny().getAsInt();
     try {
       todoService.deleteTodo(changeId);
@@ -127,7 +127,7 @@ public class TodoServiceTest {
   @Test(expected=TodoNotFoundException.class)
   public void deleteTodoWrongIdTest() throws TodoNotFoundException {
     int changeId = todoService.getTodoItems().getItems().stream()
-      .mapToInt(TodoItemDTO::getTodoId)
+      .mapToInt(TodoItemDto::getTodoId)
       .max().getAsInt() + 1;
     todoService.deleteTodo(changeId);
   }
