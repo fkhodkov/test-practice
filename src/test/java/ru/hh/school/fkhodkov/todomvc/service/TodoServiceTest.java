@@ -33,17 +33,13 @@ public class TodoServiceTest {
   }
 
   @Before
-  public void prepare() {
+  public void prepare() throws TodoNotFoundException {
     todoService.reset();
     todoService.populate(numberOfTodos);
     List<TodoItemDto> items = todoService.getTodoItems().getItems().stream()
       .collect(Collectors.toList());
-    try {
-      for (int i = 1; i < numberOfTodos; i += 2) {
-        todoService.changeTodoStatus(items.get(i).getTodoId(), TodoStatus.COMPLETED);
-      }
-    } catch (TodoNotFoundException e) {
-      fail("Should not throw this");
+    for (int i = 1; i < numberOfTodos; i += 2) {
+      todoService.changeTodoStatus(items.get(i).getTodoId(), TodoStatus.COMPLETED);
     }
   }
 
